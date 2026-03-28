@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply font-sans text-primary bg-surface min-h-screen antialiased transition-colors;
+  }
+
+  .dark body {
+    @apply bg-slate-950 text-slate-100;
+  }
+}
+
+/* Campo de data: caixa única; ícone em flex (o CSS padrão usa absolute e “escapa” do campo) */
+.cgi-date-field.react-datepicker-wrapper {
+  @apply block w-full max-w-full;
+}
+
+.cgi-date-field .react-datepicker__input-container.react-datepicker__view-calendar-icon {
+  @apply flex w-full min-h-11 flex-row items-center gap-2 rounded-xl border border-primary/10 bg-white px-3.5 py-0 shadow-sm transition dark:border-white/15 dark:bg-slate-900;
+}
+
+.cgi-date-field .react-datepicker__input-container.react-datepicker__view-calendar-icon:hover {
+  @apply border-primary/20 dark:border-white/25;
+}
+
+.cgi-date-field
+  .react-datepicker__input-container.react-datepicker__view-calendar-icon:focus-within {
+  @apply border-accent/50 ring-2 ring-accent/30;
+}
+
+.cgi-date-field .react-datepicker__input-container .react-datepicker__calendar-icon {
+  position: static !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  color: rgb(15 23 42 / 0.5);
+}
+
+.dark .cgi-date-field .react-datepicker__input-container .react-datepicker__calendar-icon {
+  color: rgb(148 163 184); /* slate-400 — visível no fundo escuro do campo */
+}
+
+.cgi-date-field .react-datepicker__view-calendar-icon input.cgi-date-field-input,
+.cgi-date-field .react-datepicker__view-calendar-icon input {
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
+}
+
+.cgi-date-field-wrap-error .react-datepicker__input-container.react-datepicker__view-calendar-icon {
+  @apply border-danger ring-1 ring-danger/30;
+}
+
+.cgi-date-field-wrap-error
+  .react-datepicker__input-container.react-datepicker__view-calendar-icon:focus-within {
+  @apply ring-2 ring-danger/35;
+}
+
+/* Calendário (react-datepicker) acima de modais e alinhado ao design system */
+.cgi-datepicker-popper {
+  z-index: 220 !important;
+}
+
+.react-datepicker {
+  @apply rounded-xl border border-primary/10 font-sans shadow-modal;
+}
+
+.react-datepicker__header {
+  @apply rounded-t-xl border-b border-primary/10 bg-primary text-white;
+}
+
+.react-datepicker__header--custom {
+  @apply bg-primary;
+}
+
+.react-datepicker__current-month,
+.react-datepicker__day-name {
+  @apply text-white/90;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  @apply bg-accent !text-primary font-semibold;
+}
+
+.react-datepicker__day:hover {
+  @apply bg-accent/30;
+}
+
+.react-datepicker__navigation-icon::before {
+  @apply border-white;
+}

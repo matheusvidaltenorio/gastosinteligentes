@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Painel — Controle de Gastos Inteligente</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/painel.css') }}">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <h1>Controle de Gastos Inteligente</h1>
+      <div class="sub" id="userLine">Painel web · mesma API REST</div>
+    </div>
+    <div>
+      <a href="/app/" class="btn btn-ghost btn-sm" style="text-decoration:none;margin-right:0.5rem">App React (novo)</a>
+      <a href="/" class="btn btn-ghost btn-sm" style="text-decoration:none;margin-right:0.5rem">Início</a>
+      <button type="button" class="btn btn-ghost btn-sm hidden" id="btnLogout">Sair</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="authPanel" class="panel">
+      <h2>Acesso</h2>
+      <div class="tabs">
+        <button type="button" class="tab active" data-tab="login">Entrar</button>
+        <button type="button" class="tab" data-tab="register">Criar conta</button>
+      </div>
+      <form id="formLogin" class="form-grid">
+        <div>
+          <label for="loginEmail">E-mail</label>
+          <input type="email" id="loginEmail" required autocomplete="username">
+        </div>
+        <div>
+          <label for="loginSenha">Senha</label>
+          <input type="password" id="loginSenha" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary">Entrar</button>
+      </form>
+      <form id="formRegister" class="form-grid hidden">
+        <div>
+          <label for="regNome">Nome</label>
+          <input type="text" id="regNome" required minlength="1" maxlength="120">
+        </div>
+        <div>
+          <label for="regEmail">E-mail</label>
+          <input type="email" id="regEmail" required autocomplete="username">
+        </div>
+        <div>
+          <label for="regSenha">Senha (mín. 8 caracteres)</label>
+          <input type="password" id="regSenha" required minlength="8" autocomplete="new-password">
+        </div>
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
+      </form>
+    </section>
+
+    <section id="appPanel" class="hidden">
+      <div class="panel">
+        <h2>Saldo</h2>
+        <div class="cards balance-row">
+          <div class="card receita">
+            <div class="label">Receitas</div>
+            <div class="value" id="valReceitas">—</div>
+          </div>
+          <div class="card despesa">
+            <div class="label">Despesas</div>
+            <div class="value" id="valDespesas">—</div>
+          </div>
+          <div class="card saldo">
+            <div class="label">Saldo</div>
+            <div class="value" id="valSaldo">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Insights</h2>
+        <ul class="insights-list" id="insightsList"></ul>
+        <div id="insightAlert" class="alert-banner hidden"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Gastos por categoria</h2>
+        <div id="chartCategory" class="chart-bars"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Novo lançamento</h2>
+        <form id="formTx" class="form-grid two">
+          <div>
+            <label for="txTipo">Tipo</label>
+            <select id="txTipo" required>
+              <option value="DESPESA">Despesa</option>
+              <option value="RECEITA">Receita</option>
+            </select>
+          </div>
+          <div>
+            <label for="txValor">Valor (R$)</label>
+            <input type="number" id="txValor" required min="0.01" step="0.01" placeholder="0,00">
+          </div>
+          <div>
+            <label for="txCategoria">Categoria</label>
+            <select id="txCategoria" required>
+              <option value="">Selecione…</option>
+            </select>
+            <p class="field-hint">Lista fixa por tipo (receita ou despesa).</p>
+          </div>
+          <div>
+            <label for="txData">Data</label>
+            <input type="text" id="txData" required autocomplete="off" placeholder="Clique para abrir a agenda" readonly title="Agenda com dia, mês e ano">
+            <p class="field-hint">Clique no campo: abre a agenda. Use as listas de mês e ano e o dia no calendário.</p>
+          </div>
+          <div style="grid-column:1/-1">
+            <label for="txDesc">Descrição</label>
+            <textarea id="txDesc" placeholder="Opcional"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Adicionar</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h2>Extrato</h2>
+        <div class="filters">
+          <div class="field narrow">
+            <label for="fTipo">Tipo</label>
+            <select id="fTipo">
+              <option value="">Todos</option>
+              <option value="RECEITA">Receita</option>
+              <option value="DESPESA">Despesa</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="fCat">Categoria</label>
+            <select id="fCat">
+              <option value="">Todas</option>
+            </select>
+          </div>
+          <div class="field narrow">
+            <label for="fIni">De</label>
+            <input type="text" id="fIni" autocomplete="off" placeholder="Agenda" readonly title="Agenda">
+          </div>
+          <div class="field narrow">
+            <label for="fFim">Até</label>
+            <input type="text" id="fFim" autocomplete="off" placeholder="Agenda" readonly title="Agenda">
+          </div>
+          <button type="button" class="btn btn-ghost" id="btnFilter">Atualizar</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Tipo</th>
+                <th>Categoria</th>
+                <th>Valor</th>
+                <th>Descrição</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="txTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="modalEdit" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal">
+      <h3>Editar lançamento</h3>
+      <form id="formEditTx" class="form-grid">
+        <input type="hidden" id="editId">
+        <div>
+          <label for="editTipo">Tipo</label>
+          <select id="editTipo" required>
+            <option value="DESPESA">Despesa</option>
+            <option value="RECEITA">Receita</option>
+          </select>
+        </div>
+        <div>
+          <label for="editValor">Valor</label>
+          <input type="number" id="editValor" required min="0.01" step="0.01">
+        </div>
+        <div>
+          <label for="editCategoria">Categoria</label>
+          <select id="editCategoria" required>
+            <option value="">Selecione…</option>
+          </select>
+        </div>
+        <div>
+          <label for="editData">Data</label>
+          <input type="text" id="editData" required autocomplete="off" placeholder="Agenda" readonly title="Agenda">
+        </div>
+        <div>
+          <label for="editDesc">Descrição</label>
+          <textarea id="editDesc"></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="editCancel">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" role="status"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/pt.js"></script>
+  <script src="{{ url_for('static', filename='js/painel.js') }}"></script>
+</body>
+</html>

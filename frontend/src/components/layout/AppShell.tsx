@@ -12,10 +12,10 @@ export function AppShell({ children, title }: Props) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-surface transition-colors dark:bg-slate-950">
-      {/* Mobile: drawer fixo. Desktop (md+): static — rola junto com a página, não fica preso à viewport. */}
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-surface transition-colors dark:bg-slate-950">
+      {/* Mobile: drawer. Desktop: sidebar fixa. translate só no mobile (evita transform no desktop = fixed relativo à viewport). */}
       <aside
-        className={`flex w-64 shrink-0 flex-col border-r border-white/10 bg-primary transition-transform duration-300 max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:z-50 md:static md:z-auto ${
+        className={`flex w-64 max-w-[min(16rem,100%)] shrink-0 flex-col overflow-y-auto border-r border-white/10 bg-primary max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:z-50 max-md:h-full max-md:transition-transform max-md:duration-300 md:fixed md:inset-y-0 md:left-0 md:z-30 md:h-screen md:translate-x-0 ${
           open ? "max-md:translate-x-0" : "max-md:-translate-x-full"
         }`}
       >
@@ -42,9 +42,11 @@ export function AppShell({ children, title }: Props) {
         />
       ) : null}
 
-      <div className="flex min-h-screen flex-1 flex-col md:ml-0">
+      <div className="flex min-h-screen w-full min-w-0 max-w-full flex-col md:ml-64">
         <Navbar title={title} onMenuClick={() => setOpen(true)} />
-        <main className="flex-1 p-4 sm:p-6 lg:p-8">{children}</main>
+        <main className="mt-14 box-border flex-1 min-w-0 max-w-full p-3 pt-4 sm:mt-16 sm:p-6 lg:p-8">
+          {children}
+        </main>
       </div>
     </div>
   );

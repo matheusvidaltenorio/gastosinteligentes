@@ -7,6 +7,11 @@ import { InsightsPage } from "@/pages/InsightsPage";
 import { LoginPage } from "@/pages/LoginPage";
 import { RegisterPage } from "@/pages/RegisterPage";
 import { TransactionsPage } from "@/pages/TransactionsPage";
+import { EventCreatePage } from "@/pages/EventCreatePage";
+import { EventDetailPage } from "@/pages/EventDetailPage";
+import { EventJoinPage } from "@/pages/EventJoinPage";
+import { EventPublicPage } from "@/pages/EventPublicPage";
+import { EventsListPage } from "@/pages/EventsListPage";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 
 const routerBasename =
@@ -20,6 +25,8 @@ export default function App() {
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/events/join" element={<EventJoinPage />} />
+            <Route path="/evento/:codigo" element={<EventPublicPage />} />
             <Route
               path="/"
               element={
@@ -49,6 +56,30 @@ export default function App() {
               element={
                 <ProtectedRoute>
                   <GoalsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/events"
+              element={
+                <ProtectedRoute>
+                  <EventsListPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/events/new"
+              element={
+                <ProtectedRoute>
+                  <EventCreatePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/events/:id"
+              element={
+                <ProtectedRoute>
+                  <EventDetailPage />
                 </ProtectedRoute>
               }
             />

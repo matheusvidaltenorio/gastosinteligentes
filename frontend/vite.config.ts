@@ -23,6 +23,7 @@ export default defineConfig({
       "/balance": { target: "http://127.0.0.1:5000", changeOrigin: true },
       "/insights": { target: "http://127.0.0.1:5000", changeOrigin: true },
       "/reports": { target: "http://127.0.0.1:5000", changeOrigin: true },
+      "/events": { target: "http://127.0.0.1:5000", changeOrigin: true },
       "/health": { target: "http://127.0.0.1:5000", changeOrigin: true },
     },
   },

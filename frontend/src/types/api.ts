@@ -70,3 +70,40 @@ export interface FinancialGoal {
   currentAmount: string;
   createdAt: string;
 }
+
+/** Participante de um evento de divisão de gastos. */
+export interface EventParticipant {
+  id: string;
+  nome: string;
+  valor_devido: string;
+  pago: boolean;
+  created_at?: string;
+}
+
+/** Evento criado pelo usuário (resposta autenticada). */
+export interface SplitEventDetail {
+  id: number;
+  nome: string;
+  valor_total: string;
+  codigo: string;
+  user_id: number;
+  created_at: string;
+  participants: EventParticipant[];
+}
+
+export interface SplitEventListItem {
+  id: number;
+  nome: string;
+  valor_total: string;
+  codigo: string;
+  created_at: string;
+  participantes_count: number;
+}
+
+/** Resposta pública (sem login). */
+export interface SplitEventPublic {
+  nome: string;
+  codigo: string;
+  valor_total: string;
+  participants: EventParticipant[];
+}

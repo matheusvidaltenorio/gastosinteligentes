@@ -15,6 +15,7 @@ from app.errors import APIError
 from app.extensions import bcrypt, db, jwt, ma
 from app.routes.auth import auth_bp
 from app.routes.balance import balance_bp
+from app.routes.events import events_bp
 from app.routes.insights import insights_bp
 from app.routes.reports import reports_bp
 from app.routes.transactions import transactions_bp
@@ -36,6 +37,7 @@ def create_app(config_class=None):
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(transactions_bp)
+    app.register_blueprint(events_bp)
     app.register_blueprint(balance_bp)
     app.register_blueprint(insights_bp)
     app.register_blueprint(reports_bp)

@@ -11,7 +11,7 @@ type Props = {
 export function Card({ children, className = "", title, subtitle, action }: Props) {
   return (
     <section
-      className={`rounded-2xl bg-white p-5 shadow-card ring-1 ring-primary/5 transition hover:ring-primary/10 dark:bg-slate-900 dark:ring-white/10 dark:hover:ring-white/15 ${className}`}
+      className={`min-w-0 max-w-full rounded-2xl bg-white p-5 shadow-card ring-1 ring-primary/5 transition hover:ring-primary/10 dark:bg-slate-900 dark:ring-white/10 dark:hover:ring-white/15 ${className}`}
     >
       {(title || action) && (
         <div className="mb-4 flex flex-wrap items-start justify-between gap-3">

@@ -90,6 +90,19 @@ Use `FLASK_ENV=production` e chaves fortes em variáveis de ambiente (`Productio
 
 Regras: `valor` > 0; `tipo` obrigatório e enumerado.
 
+### Eventos / divisão de gastos
+
+| Método | Rota | Auth | Descrição |
+|--------|------|------|-----------|
+| POST | `/events` | JWT | Cria evento (`nome`, `valor_total`, `participantes`: lista de nomes); gera `codigo` único (ex.: `ABC123`) |
+| GET | `/events` | JWT | Lista eventos do usuário |
+| GET | `/events/<id>` | JWT | Detalhe com participantes |
+| PATCH | `/events/<id>/participants/<participant_id>` | JWT | `valor_devido` e/ou `pago` (criador edita) |
+| GET | `/events/code/<codigo>` | — | Visualização pública (nome, total, participantes, valores) |
+| PATCH | `/events/code/<codigo>/participants/<participant_id>/paid` | — | Corpo `{"pago": true\|false}` — marcar pagamento sem login |
+
+O valor total é dividido em partes iguais entre os nomes informados (centavos distribuídos nas primeiras fatias). No app React: **Eventos** (logado), **Entrar com código** e **`/app/evento/<codigo>`** (público).
+
 ### Saldo
 
 `GET /balance` — opcional: `start_date`, `end_date`.

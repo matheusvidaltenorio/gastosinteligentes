@@ -237,7 +237,7 @@ export function DashboardPage() {
       {loading ? (
         <DashboardSkeleton />
       ) : (
-        <div className="mx-auto max-w-6xl space-y-8 animate-fadeIn">
+        <div className="mx-auto w-full min-w-0 max-w-6xl space-y-8 animate-fadeIn">
           <div className="grid gap-4 sm:grid-cols-3">
             <KpiCard
               label="Saldo total"
@@ -362,7 +362,7 @@ export function DashboardPage() {
                 icon="📈"
               />
             ) : (
-              <div className="h-72 w-full">
+              <div className="h-72 w-full min-w-0">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={lineData} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
                     <XAxis dataKey="label" tick={{ fontSize: 11 }} stroke="#64748B" />
@@ -408,7 +408,7 @@ export function DashboardPage() {
                   icon="📊"
                 />
               ) : (
-                <div className="h-64 w-full">
+                <div className="h-64 w-full min-w-0">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie

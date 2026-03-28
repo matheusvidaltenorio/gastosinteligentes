@@ -3,11 +3,24 @@
 @tailwind utilities;
 
 @layer base {
+  /* Evita rolagem horizontal na janela (gráficos/tabelas não “empurram” header e sidebar para fora). */
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    max-width: 100%;
   }
   body {
     @apply font-sans text-primary bg-surface min-h-screen antialiased transition-colors;
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  #root {
+    overflow-x: hidden;
+    max-width: 100%;
+    min-height: 100vh;
+    /* Evita 100vw + barra de rolagem gerando 1px de overflow em alguns navegadores */
+    width: 100%;
   }
 
   .dark body {

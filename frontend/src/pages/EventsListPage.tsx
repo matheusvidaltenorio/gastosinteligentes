@@ -72,7 +72,7 @@ export function EventsListPage() {
                     </p>
                     <p className="mt-1 text-sm text-primary/60 dark:text-slate-400">
                       {formatBRL(ev.valor_total)} · {ev.participantes_count}{" "}
-                      participante(s) · Código{" "}
+                      participante(s) · {ev.tipo_divisao} · {ev.status} · Código{" "}
                       <span className="font-mono font-medium">{ev.codigo}</span>
                     </p>
                     <p className="mt-1 text-xs text-primary/45 dark:text-slate-500">

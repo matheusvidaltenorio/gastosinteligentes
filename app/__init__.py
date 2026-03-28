@@ -115,6 +115,9 @@ def create_app(config_class=None):
 
     with app.app_context():
         db.create_all()
+        from app.utils.event_db_patch import apply_event_schema_patches
+
+        apply_event_schema_patches()
 
     return app
 

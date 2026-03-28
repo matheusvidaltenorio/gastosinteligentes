@@ -13,6 +13,9 @@ class Config:
     SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-change-in-production")
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "sqlite:///expenses.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # URL pública do app React (sem barra final), ex.: https://meusite.com/app ou http://127.0.0.1:5173/app
+    # Usada em links de WhatsApp e link_publico quando Origin/Referer não estão disponíveis.
+    FRONTEND_PUBLIC_URL = os.getenv("FRONTEND_PUBLIC_URL", "").strip().rstrip("/")
 
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", SECRET_KEY)
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=24)
